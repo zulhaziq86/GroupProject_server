@@ -9,34 +9,32 @@ ok_message = 'HTTP/1.0 200 OK\n\n'
 nok_message = 'HTTP/1.0 404 NotFound\n\n'
 
 def process_start(s_sock,s_addr):
-    s_sock.send(str.encode('Welcome to the Calculator Server\n'))
+    s_sock.send(str.encode('Welcome to the Golong Restaurant\n'))
     while True:
         data = str(s_sock.recv(2048).decode())
-        op,val,val2 = data.split('.')
-        if op == "log":
-            print(str(s_addr) + " Log Function")
+        print(data)
+        op,tabl,quant,totp = data.split('.')
+        if op == "NL":
+            print(str(s_addr) + "Table " + tabl + " Ordered " + quant + " Nasi lemak ")
             line = "\n_____________________________________________________________\n"
-            
-            jawapan = "Log " + val + " with base " + val2 + " is : " + str(math.log(int(val),int(val2))) + line
+
+            jawapan = "\nTotal Price : RM" + totp + line
             s_sock.send(str.encode(jawapan))
-        elif op == "sq":
-            print(str(s_addr) + "Square Root Function")
+        elif op == "S":
+            print(str(s_addr) + "Table " + tabl + " Ordered " + quant + " Sate")
             line = "\n__________________________________________________________\n"
 
-            jawapan = "The Value of Square root of " + val + " is : " + str(math.sqrt(int(val))) + line
+            jawapan = "\nTotal Price : RM" + totp + line
             s_sock.send(str.encode(jawapan))
-        elif op == "exp":
-            print(str(s_addr) + "Exponential Function")
+        elif op == "NA":
+            print(str(s_addr) + "Table " + tabl + " Ordered " + quant + " Nasi Ayam")
             line = "\n______________________________________________________________\n"
 
-            jawapan = "The Value of Exponential of " + val + " is : " + str(math.exp(int(val))) + line
+            jawapan = "\nTotal Price : RM" + totp + line
             s_sock.send(str.encode(jawapan))
-        elif op == "qt":
+        elif op == "Q":
+            print(str(s_addr) + "Finish order")
             s_sock.close()
-             
-    s_sock.close()
-        
-
 if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(("",8888))
